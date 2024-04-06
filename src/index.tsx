@@ -3,13 +3,43 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import Login from "./Rutas/Login";
+import SignUp from "./Rutas/SignUp";
+import DashBoard from "./Rutas/DashBoard";
+import ProtectedRoute from "./Rutas/ProtectedRoute";
+import {AuthenticationProvider} from "./Authentication/AuthenticationProvider";
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Login/>,
+    },
+    {
+        path: "/SignUp",
+        element: <SignUp />,
+    },
+    {
+        path: "/",
+        element: <ProtectedRoute/>,
+        children: [
+            {
+                path: "/DashBoard",
+                element: <DashBoard />,
+            },
+        ],
+    },
+
+]);
+
+
+
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);root.render(
   <React.StrictMode>
-    <App />
+      <AuthenticationProvider>
+          <RouterProvider router={router} />
+      </AuthenticationProvider>
   </React.StrictMode>
 );
 
