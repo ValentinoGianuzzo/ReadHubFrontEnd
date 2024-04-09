@@ -16,7 +16,7 @@ export default function DefaultLayout({children}: DefaultLayoutProps) {
                             <Link to="/">Home</Link>
                         </li>
                         <li>
-                            <Link to="SignUp">SignUp</Link>
+                            <Link to="/SignUp">SignUp</Link>
                         </li>
                     </ul>
                 </nav>

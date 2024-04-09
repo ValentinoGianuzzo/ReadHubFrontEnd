@@ -23,8 +23,30 @@ export default function Login() {
                 <label>Password</label>
                 <input type="Password" value={password} onChange={(e) =>setPassword(e.target.value)}/>
 
-                <button>Login</button>
+                <button onClick={() => login(username, password)}>Login</button>
             </form>
         </DefaultLayout>
-    );
+        
+    );  
 }
+
+// Function to log in
+const login = async (username: string, password: string) => {
+    const response = await fetch("http://localhost:3001/",{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({username, password})
+    });
+
+    if(response.ok){
+        const user = await response.json();
+        console.log(user);
+    }
+}
+
+
+
+
+
