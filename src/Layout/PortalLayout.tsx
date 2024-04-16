@@ -26,6 +26,9 @@ export default function PortalLayout({ children }: PortalLayoutProps) {
                             <Link to="/Profile">Profile</Link>
                         </li>
                         <li>
+                            <Link to="/MyBooks">MyBooks</Link>
+                        </li>
+                        <li>
                             <Link to="/Settings">Settings</Link>
                         </li>
                         <li>
