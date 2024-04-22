@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-function setTheme(themeLight: string) {
-    localStorage.setItem('theme', themeLight);
-    document.documentElement.className = themeLight;
-
-
+function setTheme(theme: string) {
+    localStorage.setItem('theme', theme);
+    document.documentElement.className = theme;
 }
 
 export default function Toggle() {
-    const [togClass, setTogClass] = useState('dark');
-    let theme = localStorage.getItem('theme');
+    const [togClass, setTogClass] = useState('');
 
     const handleOnClick = () => {
-        if (localStorage.getItem('theme') === 'theme-dark') {
+        if (togClass === 'dark') {
             setTheme('theme-light');
             setTogClass('light');
         } else {
@@ -22,25 +19,20 @@ export default function Toggle() {
     };
 
     useEffect(() => {
-        if (localStorage.getItem('theme') === 'theme-dark') {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'theme-dark') {
             setTogClass('dark');
-        } else if (localStorage.getItem('theme') === 'theme-light') {
+        } else if (theme === 'theme-light') {
             setTogClass('light');
         }
-    }, [theme]);
+    }, []);
 
     return (
         <div className="container--toggle">
-            {
-                togClass === "light" ?
-                    <input type="checkbox" id="toggle" className="toggle--checkbox" onClick={handleOnClick} checked />
-                    :
-                    <input type="checkbox" id="toggle" className="toggle--checkbox" onClick={handleOnClick} />
-            }
+            <input type="checkbox" id="toggle" className="toggle--checkbox" onClick={handleOnClick} checked={togClass === 'light'} />
             <label htmlFor="toggle" className="toggle--label">
                 <span className="toggle--label-background"></span>
             </label>
         </div>
     );
 }
-

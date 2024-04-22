@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import React, { MouseEvent } from "react";
-import {useAuthentication} from "../Authentication/AuthenticationProvider";
 
 
 
@@ -9,10 +8,11 @@ interface PortalLayoutProps {
 }
 
 export default function PortalLayout({ children }: PortalLayoutProps) {
-    const Authentication = useAuthentication();
     const handleLogout = (e: MouseEvent) => {
         e.preventDefault();
-       // Authentication.logout();
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+
     }
     return (
         <>
