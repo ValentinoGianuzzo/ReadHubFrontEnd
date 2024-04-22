@@ -9,7 +9,7 @@ export default function Login() {
 
     // Función para manejar el inicio de sesión
     const login = async (email: string, password: string) => {
-        const response = await fetch("http://localhost:8080/api/v1/auth/signin", {
+        const response = await fetch("http://localhost:8080/auth/signin", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

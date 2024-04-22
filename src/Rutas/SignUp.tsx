@@ -10,7 +10,7 @@ export default function SignUp() {
     const [isRegistered, setIsRegistered] = useState(false);
 
     const createUser = async (email:string, firstName:string, lastName:string, password:string) => {
-        const response = await fetch("http://localhost:8080/api/v1/auth/signup", {
+        const response = await fetch("http://localhost:8080/auth/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
