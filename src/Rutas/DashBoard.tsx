@@ -12,12 +12,13 @@ export default function Home() {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get('https://www.googleapis.com/books/v1/volumes?q=${searchTerm}');
-            setSearchResults(response.data.items);
+            const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}`);
+            setSearchResults(response.data.items || []);
         } catch (error) {
             console.error('Error al buscar libros:', error);
         }
     };
+
 
     return (
         <div className="home">
@@ -39,7 +40,7 @@ export default function Home() {
                 <button type="submit">Search</button>
             </form>
             <div className="search-results">
-                <Card book={searchResults} />
+                <Card book={searchResults}/>
             </div>
             <Routes>
                 <Route path="/Profile" element={<Profile />} />
