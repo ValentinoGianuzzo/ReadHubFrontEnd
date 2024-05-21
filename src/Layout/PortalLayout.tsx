@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { MouseEvent } from "react";
+import '../Style/Style.css';
+import '../Style/Global.css';
 
 
 

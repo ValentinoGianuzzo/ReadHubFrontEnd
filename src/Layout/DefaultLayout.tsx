@@ -1,5 +1,7 @@
 import {Link} from "react-router-dom";
 import {Children} from "react";
+import '../Style/Style.css';
+import '../Style/Global.css';
 
 interface DefaultLayoutProps {
     children: React.ReactNode;

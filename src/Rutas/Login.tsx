@@ -1,6 +1,9 @@
 import DefaultLayout from "../Layout/DefaultLayout";
 import { useState } from "react";
 import {Navigate, useNavigate} from "react-router-dom";
+import '../Style/Style.css';
+import '../Style/Global.css';
+
 
 export default function Login() {
     const [email, setEmail] = useState("");

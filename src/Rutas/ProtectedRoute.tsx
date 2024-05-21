@@ -1,13 +1,16 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Dashboard from './DashBoard';
-import Profile from './Profile';
+import Dashboard from './dashboard/DashBoard';
+import Profile from './profile/Profile';
 import MyBooks from './MyBooks';
 import Settings from './Settings';
 import ProtectedRoute from './ProtectedRoute';
-import Home from './DashBoard';
+import Home from './dashboard/DashBoard';
 import Login from "./Login";
 import SignUp from "./SignUp";
+import '../Style/Style.css';
+import '../Style/Global.css';
+import Detail from "./book/Detail";
 
 export default function App() {
     return (
@@ -24,6 +27,7 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/" element={<Home />} />
+            <Route path="/book/:bookId" element={<Detail />} />
         </Routes>
     );
 }

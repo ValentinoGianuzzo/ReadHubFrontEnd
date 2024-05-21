@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import '../../Style/Style.css';
+import '../../Style/Global.css';
 
 const Profile = () => {
     const [userData, setUserData] = useState({
@@ -108,7 +110,7 @@ const Profile = () => {
                 {isEditMode ? (
                     <input
                         type="password"
-                        value={userData.password}
+                        value={userData.password} disabled
                         onChange={(e) => setUserData({ ...userData, password: e.target.value })}
                     />
                 ) : (

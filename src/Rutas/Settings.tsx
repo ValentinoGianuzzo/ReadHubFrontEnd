@@ -1,6 +1,8 @@
 import React from 'react';
 import Toggle from '../Properties/Toggle';
 import { useNavigate } from 'react-router-dom';
+import '../Style/Style.css';
+import '../Style/Global.css';
 
 export default function Settings() {
     const navigate = useNavigate();

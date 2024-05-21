@@ -1,5 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import '../Style/Style.css';
+import '../Style/Global.css';
 
 interface BookDetails {
     id: string;

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import DefaultLayout from "../Layout/DefaultLayout";
+import '../Style/Style.css';
+import '../Style/Global.css';
 
 export default function SignUp() {
     const [firstName, setFirstName] = useState("");

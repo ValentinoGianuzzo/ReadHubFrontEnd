@@ -2,14 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {createBrowserRouter, Route, RouterProvider} from 'react-router-dom';
 import Login from "./Rutas/Login";
 import SignUp from "./Rutas/SignUp";
-import DashBoard from "./Rutas/DashBoard";
+import DashBoard from "./Rutas/dashboard/DashBoard";
 import ProtectedRoute from "./Rutas/ProtectedRoute";
 import Settings from "./Rutas/Settings";
 import MyBooks from "./Rutas/MyBooks";
-import Profile from "./Rutas/Profile";
+import Profile from "./Rutas/profile/Profile";
+import './Style/Style.css';
+import './Style/Global.css';
+import Detail from "./Rutas/book/Detail";
 
 const router = createBrowserRouter([
     {
@@ -40,6 +43,10 @@ const router = createBrowserRouter([
                 path: "/DashBoard",
                 element: <DashBoard />,
             },
+            {
+                path: "/book/:bookId",
+                element: <Detail/>,
+            }
         ],
     },
 ]);

@@ -1,0 +1,73 @@
+.header{
+    display : flex;
+    justify-content: space-between;
+    background-color: white;
+    position: fixed;
+    width: 100%;
+    height: 10%;
+}
+
+.formBox{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 75%;
+    gap: 10px;
+    padding: 20px;
+}
+
+.searchBarBox{
+    width: 80%;
+}
+
+.searchBar{
+    width: 200px;
+}
+
+.searchResultBox{
+    height:100%;
+}
+
+.searchResult{
+    width: 90%;
+    padding: 7.5% 5% 5%;
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 200px));
+    gap: 20px;
+}
+
+.cardBox{
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    width: 200px;
+}
+
+.cardImageBox{
+    height: 200px;
+    width: 200px;
+}
+
+.cardImageBox:hover{
+    height: 220px;
+    width: 220px;
+}
+
+.bottomCardBox{
+    display: flex;
+    justify-content: space-around;
+    align-items: center; /* Añade esta línea */
+    flex-direction: column;
+    height: 200px;
+    width: 200px;
+}
+
+.buttonsBox{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    align-items: center;
+    color: white;
+    gap: 20px; /* Ajusta este valor a tus necesidades */
+}

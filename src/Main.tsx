@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, KeyboardEvent } from "react";
 import axios from "axios";
-import Card from "./Card"
+import Card from "./Rutas/dashboard/Card"
 
 const Main: React.FC = () => {
     const [search, setSearch] = useState<string>("");
