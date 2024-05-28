@@ -1,0 +1,8 @@
+.bookDescription {
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: justify;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
