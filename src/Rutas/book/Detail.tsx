@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from "react-router-dom";
 import axios from 'axios';
 import StarRatings from 'react-star-ratings';
+import './style.css';
 
 interface Book {
     volumeInfo: {
@@ -19,6 +20,7 @@ interface Comment {
     id: string;
     user: string;
     text: string;
+    rating: number;
 }
 
 interface DetailProps {
@@ -33,6 +35,7 @@ const Detail: React.FC<DetailProps> = ({ userId }) => {
     const [readState, setReadState] = useState('No Leído');
     const [comments, setComments] = useState<Comment[]>([]);
     const [newComment, setNewComment] = useState('');
+    const [showCommentBox, setShowCommentBox] = useState(false);
 
     useEffect(() => {
         const fetchBook = async () => {
@@ -80,6 +83,7 @@ const Detail: React.FC<DetailProps> = ({ userId }) => {
             console.error('Error checking if book is favorite:', error);
         }
     };
+
     const addToFavorites = async () => {
         try {
             // Verificar si existe la lista de favoritos para el usuario
@@ -114,7 +118,6 @@ const Detail: React.FC<DetailProps> = ({ userId }) => {
             console.error('Error adding or removing from favorites:', error);
         }
     };
-
 
     const addToCustomList = async (listId: string) => {
         try {
@@ -152,61 +155,84 @@ const Detail: React.FC<DetailProps> = ({ userId }) => {
     const handleCommentSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`/api/comments/${bookId}`, { text: newComment });
+            const response = await axios.post(`/api/comments/${bookId}`, { text: newComment, rating });
             setComments([...comments, response.data]);
             setNewComment('');
+            setRating(0);
+            setShowCommentBox(false);
         } catch (error) {
             console.error('Error submitting comment:', error);
         }
     };
 
     return (
-        <div>
+        <div style={{ padding: '20px' }}>
             <Link to="/Dashboard" style={{ textDecoration: 'none', color: 'blue', marginBottom: '20px', display: 'block' }}>Volver a Dashboard</Link>
             {book ? (
                 <>
-                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <div className="bookDescription">
                         <img
                             src={book.volumeInfo.imageLinks.thumbnail}
                             alt={`Cover of ${book.volumeInfo.title}`}
-                            style={{ marginTop: '60px', marginRight: '40px', marginLeft: '20px', maxHeight: '300px', maxWidth: '300px', minHeight: '300px', minWidth: '300px' }}
                         />
-                        <div>
-                            <h1>{book.volumeInfo.title}</h1>
-                            <h2>{book.volumeInfo.authors.join(', ')}</h2>
-                            <div className="bookDescription">
+                        <div style={{ flex: 1 }}>
+                            <h1 style={{ margin: '0 0 10px' }}>{book.volumeInfo.title}</h1>
+                            <h2 style={{ margin: '0 0 20px', color: '#555' }}>{book.volumeInfo.authors.join(', ')}</h2>
+                            <div style={{ marginBottom: '20px', color: '#333' }}>
                                 <div dangerouslySetInnerHTML={{ __html: book.volumeInfo.description }}></div>
                             </div>
-                            <button onClick={addToFavorites}>{isFavorite ? "Quitar de Favoritos" : "Agregar a Favoritos"}</button>
-                            <button onClick={() => addToCustomList('listaId')}>Agregar a Lista Personalizada</button>
-                            <button onClick={toggleReadState}>{readState}</button>
+                            <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+                                <button onClick={addToFavorites} style={buttonStyle}>{isFavorite ? "Quitar de Favoritos" : "Agregar a Favoritos"}</button>
+                                <button onClick={() => addToCustomList('listaId')} style={buttonStyle}>Agregar a Lista Personalizada</button>
+                                <button onClick={toggleReadState} style={buttonStyle}>{readState}</button>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <p>Rating: {book.volumeInfo.averageRating}</p>
+                    <div style={{ marginBottom: '20px' }}>
+                        <p style={{ margin: '0 0 10px' }}>Rating: {book.volumeInfo.averageRating}</p>
                         <StarRatings
-                            rating={rating}
+                            rating={book.volumeInfo.averageRating}
                             starRatedColor="blue"
-                            changeRating={changeRating}
                             numberOfStars={5}
-                            name='rating'
+                            name='averageRating'
+                            starDimension="30px"
+                            starSpacing="5px"
                         />
                     </div>
                     <div>
                         <h2>Comments</h2>
-                        <form onSubmit={handleCommentSubmit}>
-                            <textarea
-                                placeholder="Write a comment..."
-                                aria-label="Write a comment"
-                                value={newComment}
-                                onChange={e => setNewComment(e.target.value)}
-                            ></textarea>
-                            <button type="submit">Submit</button>
-                        </form>
+                        <button onClick={() => setShowCommentBox(!showCommentBox)} style={buttonStyle}>Hacer Comentario</button>
+                        {showCommentBox && (
+                            <div className="comment-box">
+                                <form onSubmit={handleCommentSubmit} style={{ marginBottom: '20px' }}>
+                                    <StarRatings
+                                        rating={rating}
+                                        starRatedColor="blue"
+                                        changeRating={changeRating}
+                                        numberOfStars={5}
+                                        name='rating'
+                                    />
+                                    <textarea
+                                        placeholder="Write a comment..."
+                                        aria-label="Write a comment"
+                                        value={newComment}
+                                        onChange={e => setNewComment(e.target.value)}
+                                    ></textarea>
+                                    <button type="submit" style={buttonStyle}>Submit</button>
+                                </form>
+                            </div>
+                        )}
                         <div>
                             {comments.map(comment => (
-                                <div key={comment.id} style={{ marginTop: '10px', borderBottom: '1px solid #ccc' }}>
-                                    <p><strong>{comment.user}</strong></p>
+                                <div key={comment.id} className="comment">
+                                    <p><strong>{comment.user}</strong> - <StarRatings
+                                        rating={comment.rating}
+                                        starRatedColor="blue"
+                                        numberOfStars={5}
+                                        name='rating'
+                                        starDimension="20px"
+                                        starSpacing="2px"
+                                    /></p>
                                     <p>{comment.text}</p>
                                 </div>
                             ))}
@@ -219,5 +245,36 @@ const Detail: React.FC<DetailProps> = ({ userId }) => {
         </div>
     );
 }
+
+const buttonStyle = {
+    padding: '10px 20px',
+    backgroundColor: '#007BFF',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer'
+};
+
+const textareaStyle = {
+    width: '100%',
+    padding: '10px',
+    marginBottom: '10px',
+    borderRadius: '5px',
+    border: '1px solid #ccc'
+};
+
+const commentStyle = {
+    marginTop: '10px',
+    borderBottom: '1px solid #ccc',
+    paddingBottom: '10px'
+};
+
+const commentBoxStyle = {
+    padding: '20px',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '10px',
+    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+    marginBottom: '20px'
+};
 
 export default Detail;

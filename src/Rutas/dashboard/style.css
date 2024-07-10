@@ -37,31 +37,24 @@
     gap: 20px;
 }
 
-.cardBox{
-    display: flex;
-    flex-direction: column;
+.cardBox {
+    position: relative;
+    width: 200px;
     height: 400px;
-    width: 200px;
 }
 
-.cardImageBox{
-    height: 200px;
-    width: 200px;
+.cardImageBox {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
 }
 
-.cardImageBox:hover{
-    height: 220px;
-    width: 220px;
+
+.cardBox:hover .cardImageBox {
+    transform: scale(1.1); /* Agrandar la imagen al hacer hover */
 }
 
-.bottomCardBox{
-    display: flex;
-    justify-content: space-around;
-    align-items: center; /* Añade esta línea */
-    flex-direction: column;
-    height: 200px;
-    width: 200px;
-}
+
 
 .buttonsBox{
     display: flex;
@@ -71,3 +64,7 @@
     color: white;
     gap: 20px; /* Ajusta este valor a tus necesidades */
 }
+
+
+
+
