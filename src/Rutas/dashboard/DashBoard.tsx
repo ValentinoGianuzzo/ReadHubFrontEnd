@@ -33,9 +33,9 @@ export default function Home() {
                 </form>
                 <nav>
                     <div className='buttonsBox'>
-                        <Link to="/Profile">Profile</Link>
-                        <Link to="/Mybooks">My Books</Link>
                         <Link to="/Settings">Settings</Link>
+                        <Link to="/Mybooks">My Books</Link>
+                        <Link to="/Profile">Profile</Link>
                         <Link to="/">Exit</Link>
                     </div>
                 </nav>

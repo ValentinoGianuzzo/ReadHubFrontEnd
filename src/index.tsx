@@ -7,9 +7,9 @@ import Login from "./Rutas/Login";
 import SignUp from "./Rutas/SignUp";
 import DashBoard from "./Rutas/dashboard/DashBoard";
 import ProtectedRoute from "./Rutas/ProtectedRoute";
-import Settings from "./Rutas/Settings";
-import MyBooks from "./Rutas/MyBooks";
 import Profile from "./Rutas/profile/Profile";
+import MyBooks from "./Rutas/MyBooks";
+import Settings from "./Rutas/Settings/Settings";
 import './Style/Style.css';
 import './Style/Global.css';
 import Detail from "./Rutas/book/Detail";
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/book/:bookId",
-                element: <Detail/>,
+                element: <Detail userId={'tu_user_id_aqui'} />
             }
         ],
     },

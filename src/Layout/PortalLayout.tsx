@@ -25,13 +25,13 @@ export default function PortalLayout({ children }: PortalLayoutProps) {
                             <Link to="/Dashboard">Dashboard</Link>
                         </li>
                         <li>
-                            <Link to="/Profile">Profile</Link>
+                            <Link to="/Settings">Settings</Link>
                         </li>
                         <li>
                             <Link to="/MyBooks">MyBooks</Link>
                         </li>
                         <li>
-                            <Link to="/Settings">Settings</Link>
+                            <Link to="/Profile">Profile</Link>
                         </li>
                         <li>
                             <a href="/" onClick={handleLogout}>Logout</a>

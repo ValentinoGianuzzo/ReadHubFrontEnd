@@ -1,136 +1,126 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import '../../Style/Style.css';
-import '../../Style/Global.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link } from "react-router-dom";
 
-const Profile = () => {
-    const [userData, setUserData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: ''
-    });
-    const [isEditMode, setIsEditMode] = useState(false);
+interface DiaryEntry {
+    id: number;
+    content: string;
+}
 
-    // Cargar los datos del usuario a la pagina
+export default function Profile() {
+    const [notes, setNotes] = useState<DiaryEntry[]>([]);
+    const [newNote, setNewNote] = useState('');
+
     useEffect(() => {
-        getUserData();
+        const fetchNotes = async () => {
+            try {
+                const response = await axios.get('/api/users/1/diary-entries');  // Ajusta el endpoint según tu API
+                setNotes(response.data);
+            } catch (error) {
+                console.error('Error fetching notes:', error);
+            }
+        };
+
+        fetchNotes();
     }, []);
 
-
-    const getUserData = async () => {
+    const createNote = async (userId: number, content: string) => {
         try {
-            // Llamada a la API para obtener los datos del usuario
-            const response = await  fetch("http://localhost:8080/user/getUser", {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `${localStorage.getItem('token')}`
+            const response = await axios.post(`/api/users/${userId}/diary-entries`, { content });
+            return response.data;  // Devuelve la nota creada
+        } catch (error) {
+            console.error('Error creating note:', error);
+            throw error;  // Manejo del error opcional
+        }
+    };
+
+
+    const getUserNotes = async (userId: number) => {
+        try {
+            const response = await axios.get(`/api/users/${userId}/diary-entries`);
+            return response.data;  // Devuelve la lista de notas del usuario
+        } catch (error) {
+            console.error('Error fetching user notes:', error);
+            throw error;  // Manejo del error opcional
+        }
+    };
+    const updateNote = async (entryId: number, content: string) => {
+        try {
+            const response = await axios.put(`/api/users/1/diary-entries/${entryId}`, { content });
+            return response.data;  // Devuelve la nota actualizada
+        } catch (error) {
+            console.error('Error updating note:', error);
+            throw error;  // Manejo del error opcional
+        }
+    };
+
+    const deleteNote = async (entryId: number) => {
+        try {
+            await axios.delete(`/api/users/1/diary-entries/${entryId}`);
+            console.log('Note deleted successfully');
+        } catch (error) {
+            console.error('Error deleting note:', error);
+            throw error;  // Manejo del error opcional
+        }
+    };
+
+
+    const handleNoteSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const createdNote = await createNote(1, newNote);  // Aquí asumo que el usuario tiene ID 1
+            setNotes([...notes, createdNote]);
+            setNewNote('');
+        } catch (error) {
+            console.error('Error submitting note:', error);
+        }
+    };
+
+    const handleDeleteNote = async (entryId: number) => {
+        try {
+            await deleteNote(entryId);
+            setNotes(notes.filter(note => note.id !== entryId));
+        } catch (error) {
+            console.error('Error deleting note:', error);
+        }
+    };
+
+    const handleEditNote = async (entryId: number, updatedContent: string) => {
+        try {
+            await updateNote(entryId, updatedContent);
+            const updatedNotes = notes.map(note => {
+                if (note.id === entryId) {
+                    return { ...note, content: updatedContent };
                 }
+                return note;
             });
-            if (response.ok) {
-                const userData = await response.json();
-                setUserData(userData);
-            } else {
-                console.error('Error al obtener los datos del usuario:', response.statusText);
-            }
+            setNotes(updatedNotes);
         } catch (error) {
-            console.error('Error al obtener los datos del usuario:', error);
+            console.error('Error updating note:', error);
         }
-    };
-
-    const handleModifyPassword = async () => {
-        try {
-            // Llamada a la API para modificar la contraseña
-            const response = await fetch('http://localhost:8080/auth/changePassword', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify({ newPassword: userData.password })
-            });
-            if (response.ok) {
-                setIsEditMode(false);
-                console.log('Contraseña modificada exitosamente');
-            } else {
-                console.error('Error al modificar la contraseña:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error al modificar la contraseña:', error);
-        }
-    };
-
-    const handleDeleteUser = async () => {
-        try {
-            // Llamada a la API para borrar al usuario
-            const response = await fetch('http://localhost:8080/user/deleteUser', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `${localStorage.getItem('token')}`
-                }
-            });
-            if (response.ok) {
-                console.log('Usuario eliminado exitosamente');
-                window.location.href = '/signup'; // Redirección a SignUp después de borrar el usuario
-            } else {
-                console.error('Error al eliminar el usuario:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error al eliminar el usuario:', error);
-        }
-    };
-
-    const handleEditPassword = () => {
-        setIsEditMode(true);
-    };
-
-    const handleCancelEdit = () => {
-        setIsEditMode(false);
     };
 
     return (
-        <div className="Profile">
-            <h2>Profile</h2>
+        <div>
+            <Link to="/Dashboard" style={{ textDecoration: 'none', color: 'blue', marginBottom: '20px', display: 'block' }}>Volver a Dashboard</Link>
+            <h2>Notas Personales</h2>
+            <form onSubmit={handleNoteSubmit}>
+                <textarea
+                    placeholder="Escribe una nota..."
+                    value={newNote}
+                    onChange={e => setNewNote(e.target.value)}
+                ></textarea>
+                <button type="submit">Agregar Nota</button>
+            </form>
             <div>
-                <label>Nombre:</label>
-                <input type="text" value={userData.firstName} disabled />
+                {notes.map(note => (
+                    <div key={note.id} style={{ marginTop: '10px', borderBottom: '1px solid #ccc' }}>
+                        <p>{note.content}</p>
+                        <button onClick={() => handleEditNote(note.id, 'Nuevo contenido')}>Modificar</button>
+                        <button onClick={() => handleDeleteNote(note.id)}>Eliminar</button>
+                    </div>
+                ))}
             </div>
-            <div>
-                <label>Apellido:</label>
-                <input type="text" value={userData.lastName} disabled />
-            </div>
-            <div>
-                <label>Correo electrónico:</label>
-                <input type="text" value={userData.email} disabled />
-            </div>
-            <div>
-                <label>Contraseña:</label>
-                {isEditMode ? (
-                    <input
-                        type="password"
-                        value={userData.password} disabled
-                        onChange={(e) => setUserData({ ...userData, password: e.target.value })}
-                    />
-                ) : (
-                    <input type="password" value={userData.password} readOnly />
-                )}
-            </div>
-            <div>
-                {isEditMode ? (
-                    <>
-                        <button onClick={handleModifyPassword}>Guardar Cambios</button>
-                        <button onClick={handleCancelEdit}>Cancelar</button>
-                    </>
-                ) : (
-                    <button onClick={handleEditPassword}>Modificar Contraseña</button>
-                )}
-                <button onClick={handleDeleteUser}>Borrar Usuario</button>
-            </div>
-            <Link to="/dashboard">Volver a Dashboard</Link>
         </div>
     );
-};
-
-export default Profile;
+}
