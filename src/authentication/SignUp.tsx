@@ -1,8 +1,5 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import DefaultLayout from "../Layout/DefaultLayout";
-import '../Style/Style.css';
-import '../Style/Global.css';
 
 export default function SignUp() {
     const [firstName, setFirstName] = useState("");
@@ -21,16 +18,15 @@ export default function SignUp() {
         });
 
         if (response.ok) {
-            const user = await response.json();
-            console.log(user);
-            if (user.token) {
+            const user = await response.json(); //Aca recibo respuesta del backend!!!
+            if (user.token && user.userId) {
                 localStorage.setItem('token', user.token);
                 setIsRegistered(true); // Cambiamos el estado a true al registrar correctamente
+                localStorage.setItem('userId', user.userId); // Guardamos el id del usuario en localStorage
             }
         } else {
             console.error("Error al crear el usuario:", response.statusText);
         }
-
     };
 
     // Si el usuario está registrado, redirigimos a Dashboard
@@ -39,7 +35,7 @@ export default function SignUp() {
     }
 
     return (
-        <DefaultLayout>
+
             <form className="form" onSubmit={(e) => {
                 e.preventDefault();
                 createUser(email, firstName, lastName, password);
@@ -60,6 +56,7 @@ export default function SignUp() {
 
                 <button type="submit">SignUp</button>
             </form>
-        </DefaultLayout>
+
     );
 }
+/* tengo que agregar aca un default layout, averiguar si es la pagina de inicio o la de registro */

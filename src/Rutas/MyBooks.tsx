@@ -42,6 +42,7 @@ export default function MyBooks() {
         endDate: ''
     });
 
+    const userId = localStorage.getItem('userId'); // Obtener userId de localStorage
     useEffect(() => {
         // Obtener userId del backend
         getUserIdFromBackend();
@@ -50,17 +51,15 @@ export default function MyBooks() {
     const getUserIdFromBackend = async () => {
         try {
             const token = localStorage.getItem('token'); // Obtener token de localStorage o de donde lo guardes
-            const response = await axios.get('/getUserID', {
+            const response = await axios.get('http://localhost:8080/user/getUser', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            const userId = response.data;
-
-            // Usar userId para cargar datos del usuario
-            fetchFavoriteBooks(userId);
-            fetchCustomLists(userId);
-            fetchReadingGoals(userId);
+            const id = response.data.id; // Obtener userId del backend
+            fetchFavoriteBooks(id);
+            fetchCustomLists(id);
+            fetchReadingGoals(id);
         } catch (error) {
             console.error('Error obtaining userId:', error);
         }

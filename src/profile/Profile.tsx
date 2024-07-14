@@ -102,7 +102,7 @@ export default function Profile() {
 
     return (
         <div>
-            <Link to="/Dashboard" style={{ textDecoration: 'none', color: 'blue', marginBottom: '20px', display: 'block' }}>Volver a Dashboard</Link>
+            <Link to="/Dashboard" style={{ textDecoration: 'none', color: 'blue', marginBottom: '20px', display: 'block' }}>Home</Link>
             <h2>Notas Personales</h2>
             <form onSubmit={handleNoteSubmit}>
                 <textarea

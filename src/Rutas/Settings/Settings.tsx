@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import '../../Style/Style.css';
-import '../../Style/Global.css';
 
 const Settings = () => {
     const [userData, setUserData] = useState({

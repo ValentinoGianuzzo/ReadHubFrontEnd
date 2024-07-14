@@ -1,12 +1,15 @@
-import React from "react";
-import './style.css'
+import React, { ChangeEvent, FC } from 'react';
 
-type props = {
+type Props = {
     searchTerm: string;
     setSearchTerm: (searchTerm: string) => void;
-}
+};
 
-export default function SearchBar({searchTerm, setSearchTerm}: props) {
+const SearchBar: FC<Props> = ({ searchTerm, setSearchTerm }) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(e.target.value);
+    };
+
     return (
         <div className='searchBarBox'>
             <input
@@ -14,9 +17,10 @@ export default function SearchBar({searchTerm, setSearchTerm}: props) {
                 type="text"
                 placeholder="Search Book..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                hidden
+                onChange={handleChange}
             />
         </div>
-    )
-}
+    );
+};
+
+export default SearchBar;

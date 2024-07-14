@@ -1,61 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
-import reportWebVitals from './reportWebVitals';
-import {createBrowserRouter, Route, RouterProvider} from 'react-router-dom';
-import Login from "./Rutas/Login";
-import SignUp from "./Rutas/SignUp";
-import DashBoard from "./Rutas/dashboard/DashBoard";
-import ProtectedRoute from "./Rutas/ProtectedRoute";
-import Profile from "./Rutas/profile/Profile";
-import MyBooks from "./Rutas/MyBooks";
+import Home from './pages/Home/Home';
+import About from "./pages/About/About";
+import { AppProvider } from "./context";
 import Settings from "./Rutas/Settings/Settings";
-import './Style/Style.css';
-import './Style/Global.css';
-import Detail from "./Rutas/book/Detail";
-
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Login/>,
-    },
-    {
-        path: "/SignUp",
-        element: <SignUp />,
-    },
-    {
-        path: "/Profile",
-        element: <Profile/>,
-    },
-    {
-        path: "/Settings",
-        element: <Settings />,
-    },
-    {
-        path: "/MyBooks",
-        element: <MyBooks />,
-    },
-    {
-        path: "/",
-        element: <ProtectedRoute/>,
-        children: [
-            {
-                path: "/DashBoard",
-                element: <DashBoard />,
-            },
-            {
-                path: "/book/:bookId",
-                element: <Detail userId={'tu_user_id_aqui'} />
-            }
-        ],
-    },
-]);
+import MyBooks from "./Rutas/MyBooks";
+import SignIn from "./authentication/SignIn";
+import SignUp from "./authentication/SignUp";
+import BookList from "./components/BookList/BookList";
+import BookDetails from "./components/BookDetails/BookDetails";
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
     <React.StrictMode>
-        <RouterProvider router={router} />
+        <AppProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="about" element={<About />} />
+                    <Route path="settings" element={<Settings />} />
+                    <Route path="mybooks" element={<MyBooks />} />
+                    <Route path="signin" element={<SignIn />} />
+                    <Route path="signup" element={<SignUp />} />
+                    <Route path="books" element={<BookList />} />
+                    <Route path="book/:id" element={<BookDetails />} />
+                </Routes>
+            </BrowserRouter>
+        </AppProvider>
     </React.StrictMode>
 );
-
-reportWebVitals();
