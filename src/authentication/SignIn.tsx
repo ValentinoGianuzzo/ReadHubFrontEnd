@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./SignIn.module.css";
 import DefaultLayout from "../components/Layout/DefaultLayout"; // Ensure the path is correct
+import "./signIn.css";
+import {TextFieldComponent} from "../components/TextField/TextField";
+import {Button} from "@mui/material";
 
 export default function SignIn() {
     const [email, setEmail] = useState("");
@@ -10,6 +12,7 @@ export default function SignIn() {
 
     // Function to handle login
     const login = async (email: string, password: string) => {
+
         const response = await fetch("http://localhost:8080/auth/signin", {
             method: "POST",
             headers: {
@@ -31,20 +34,21 @@ export default function SignIn() {
 
     return (
         <DefaultLayout>
-            <div className={styles.container}>
-                <form className={styles.form} onSubmit={(e) => {
-                    e.preventDefault();
-                    login(email, password);
-                }}>
-                    <h1>Login</h1>
-                    <label>Email</label>
-                    <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <div className={"superContainer"}>
+                <div className={"loginContainer"}>
+                    <div className={"loginTitleDiv"}>
+                        <h2 className={"loginH1"}>Log In</h2>
+                    </div>
 
-                    <label>Password</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <div className={"textFields"}>
+                            <TextFieldComponent onChange={(e) => setEmail(e.target.value)} variant={"standard"} label={"Username"} labelColor={"white"}></TextFieldComponent>
+                            <TextFieldComponent onChange={(e) => setPassword(e.target.value)} variant={"filled"} label={"Password"} labelColor={"white"} type={"password"}></TextFieldComponent>
+                    </div>
 
-                    <button type="submit">Sign In</button>
-                </form>
+                    <div className={"loginButtonDiv"}>
+                        <Button className={"loginButton"} onClick={() => login(email, password)}>Log In</Button>
+                    </div>
+                </div>
             </div>
         </DefaultLayout>
     );

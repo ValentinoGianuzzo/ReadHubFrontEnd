@@ -1,0 +1,60 @@
+.superContainer{
+    display : flex;
+    justify-content : center;
+    align-items : center;
+    min-height : 90vh; /* ajustar por scroll depden de monitor */
+    overflow: hidden;
+}
+
+.loginContainer{
+    display : flex;
+    flex-direction : column;
+    width : 30vw;
+    height : 40vh;
+    background: #AE9979;
+    border-radius: 15px;
+    padding: 2vh;
+}
+
+.loginTitleDiv {
+    margin-bottom: 20px;
+}
+
+.loginH1 {
+    font-size: 2em;
+    color: #5D4037; /* Darker color for the title */
+}
+
+.textFields {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.textFields > div {
+    margin-bottom: 20px; /* Increase the separation between text fields */
+}
+
+.textField {
+    margin-bottom: 15px !important;
+}
+
+.loginButtonDiv {
+    display: flex;
+    width: 100%;
+}
+
+.loginButton {
+    width: 100% !important;
+    padding: 10px !important;
+    background-color: #5D4037 !important;  /* Matching color for the button */
+    color: white !important;
+    font-size: 1em !important;
+    border: none !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease !important;
+}
+
+.loginButton:hover {
+    background-color: #3E2723 !important; /* Darker color on hover */
+}

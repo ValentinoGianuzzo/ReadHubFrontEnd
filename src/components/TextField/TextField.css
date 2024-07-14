@@ -1,0 +1,41 @@
+.googleTextField {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: white;
+    border-radius: 25px; /* Rounded corners */
+    box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+    padding: 0 10px;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.googleTextField:hover {
+    box-shadow: 0 1px 6px rgba(32, 33, 36, 0.38);
+}
+
+.googleTextField .MuiInputBase-root {
+    flex: 1;
+}
+
+.googleTextField .MuiInputBase-input {
+    padding: 10px;
+    font-size: 16px;
+    color: #202124;
+}
+
+.googleTextField .MuiOutlinedInput-notchedOutline {
+    border: none; /* Remove the border */
+}
+
+.googleTextField .MuiFormLabel-root {
+    font-size: 0.9em !important; /* Increase font size for the label */
+    color: #202124 !important; /* Adjust the color as needed */
+}
+
+.labelTextField{
+    font-size: 0.9em !important; /* Increase font size for the label */
+}
+
+.textFieldDiv{
+    margin-bottom: 20px; /* Increase the separation between text fields */
+}
