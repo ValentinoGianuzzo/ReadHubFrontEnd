@@ -1,5 +1,6 @@
 import React from 'react';
-
+import "./modal.css"; // Ensure you have the necessary CSS
+import "./card.css";
 interface Book {
     volumeInfo: {
         title: string;

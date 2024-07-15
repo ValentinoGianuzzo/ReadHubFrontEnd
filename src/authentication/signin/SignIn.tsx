@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import DefaultLayout from "../components/Layout/DefaultLayout"; // Ensure the path is correct
+import DefaultLayout from "../../components/Layout/DefaultLayout"; // Ensure the path is correct
 import "./signIn.css";
-import {TextFieldComponent} from "../components/TextField/TextField";
+import {TextFieldComponent} from "../../components/TextField/TextField";
 import {Button} from "@mui/material";
 
 export default function SignIn() {
@@ -25,7 +25,7 @@ export default function SignIn() {
             const user = await response.json();
             if (user.token) {
                 localStorage.setItem('token', user.token);
-                navigate("/Main"); // Redirect to Main after successful login
+                navigate("/"); // Redirect to Home page
             }
         } else {
             console.error("Error logging in:", response.statusText);
@@ -37,16 +37,16 @@ export default function SignIn() {
             <div className={"superContainer"}>
                 <div className={"loginContainer"}>
                     <div className={"loginTitleDiv"}>
-                        <h2 className={"loginH1"}>Log In</h2>
+                        <h2 className={"loginH1"}>Sign In</h2>
                     </div>
 
                     <div className={"textFields"}>
-                            <TextFieldComponent onChange={(e) => setEmail(e.target.value)} variant={"standard"} label={"Username"} labelColor={"white"}></TextFieldComponent>
+                            <TextFieldComponent onChange={(e) => setEmail(e.target.value)} variant={"standard"} label={"E-mail"} labelColor={"white"}></TextFieldComponent>
                             <TextFieldComponent onChange={(e) => setPassword(e.target.value)} variant={"filled"} label={"Password"} labelColor={"white"} type={"password"}></TextFieldComponent>
                     </div>
 
                     <div className={"loginButtonDiv"}>
-                        <Button className={"loginButton"} onClick={() => login(email, password)}>Log In</Button>
+                        <Button className={"loginButton"} onClick={() => login(email, password)}>Sign In</Button>
                     </div>
                 </div>
             </div>

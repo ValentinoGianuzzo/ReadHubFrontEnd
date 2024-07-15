@@ -1,0 +1,30 @@
+.signupContainer{
+    display : flex;
+    flex-direction : column;
+    width : 30vw;
+    min-height: fit-content;
+    background: #AE9979;
+    border-radius: 15px;
+    padding: 2vh;
+}
+
+.signupButtonDiv {
+    display: flex;
+    width: 100%;
+}
+
+.signupButton {
+    width: 100% !important;
+    padding: 10px !important;
+    background-color: #5D4037 !important;  /* Matching color for the button */
+    color: white !important;
+    font-size: 1em !important;
+    border: none !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease !important;
+}
+
+.signupButton:hover {
+    background-color: #3E2723 !important; /* Darker color on hover */
+}

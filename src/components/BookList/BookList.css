@@ -1,14 +1,14 @@
 .booklist, .book-details{
     padding: 3rem 0;
-    background-color: #f8f9fa;
+    background-color: #E7DCCD;
 }
 .booklist-content{
     gap: 3rem;
 }
 .book-item{
     padding: 3rem 2rem;
-    border-radius: 4px;
-    background-color: var(--white-color);
+    border-radius: 7px;
+    background-color: var(--brown-search-color);
     box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 15px 0px;
     transition: var(--transition);
 }
@@ -60,6 +60,7 @@
         grid-template-columns: repeat(4, 1fr);
     }
     .book-item-img img{
-        max-width: 120px;
+        width: 120px;
+        height: 180px;
     }
 }

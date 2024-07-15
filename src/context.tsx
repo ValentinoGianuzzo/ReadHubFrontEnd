@@ -53,9 +53,9 @@ const AppProvider: React.FC<{children: ReactNode}> = ({ children }) => {
 
     useEffect(() => {
         if (searchTerm) {
-            handleSearch();
+            handleSearch().then(r => r);
         } else {
-            fetchDefaultBooks();
+            fetchDefaultBooks().then(r => r);
         }
     }, [searchTerm]);
 

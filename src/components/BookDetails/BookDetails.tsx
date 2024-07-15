@@ -1,21 +1,20 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Loading from "../Loader/Loader";
 import coverImg from "../../images/cover_not_found.png";
 import "./BookDetails.css";
-import {FaArrowLeft} from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 
 interface BookDetailsProps {
-    description?: string;
+    description: string;
     title: string;
     cover_img: string;
-    subject_places: string;
-    subject_times: string;
-    subjects: string;
+    authors: string;
+    publisher: string;
+    publishedDate: string;
+    categories: string;
 }
-
-const URL = "https://openlibrary.org/works/";
 
 const BookDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -27,19 +26,21 @@ const BookDetails: React.FC = () => {
         setLoading(true);
         async function getBookDetails() {
             try {
-                const response = await fetch(`${URL}${id}.json`);
+                const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${id}`);
                 const data = await response.json();
                 console.log(data);
 
                 if (data) {
-                    const { description, title, covers, subject_places, subject_times, subjects } = data;
+                    const { volumeInfo } = data;
+                    const { title, description, authors, publisher, publishedDate, categories, imageLinks } = volumeInfo;
                     const newBook: BookDetailsProps = {
-                        description: description?.value || "No description found",
-                        title: title,
-                        cover_img: covers ? `https://covers.openlibrary.org/b/id/${covers[0]}-L.jpg` : coverImg,
-                        subject_places: subject_places?.join(", ") || "No subject places found",
-                        subject_times: subject_times?.join(", ") || "No subject times found",
-                        subjects: subjects?.join(", ") || "No subjects found",
+                        title: title || "No title found",
+                        description: description || "No description found",
+                        authors: authors?.join(", ") || "No authors found",
+                        publisher: publisher || "No publisher found",
+                        publishedDate: publishedDate || "No published date found",
+                        categories: categories?.join(", ") || "No categories found",
+                        cover_img: imageLinks?.thumbnail || coverImg,
                     };
                     setBook(newBook);
                 } else {
@@ -76,16 +77,20 @@ const BookDetails: React.FC = () => {
                             <span>{book?.description}</span>
                         </div>
                         <div className='book-details-item'>
-                            <span className='fw-6'>Subject Places: </span>
-                            <span className='text-italic'>{book?.subject_places}</span>
+                            <span className='fw-6'>Authors: </span>
+                            <span className='text-italic'>{book?.authors}</span>
                         </div>
                         <div className='book-details-item'>
-                            <span className='fw-6'>Subject Times: </span>
-                            <span className='text-italic'>{book?.subject_times}</span>
+                            <span className='fw-6'>Publisher: </span>
+                            <span className='text-italic'>{book?.publisher}</span>
                         </div>
                         <div className='book-details-item'>
-                            <span className='fw-6'>Subjects: </span>
-                            <span>{book?.subjects}</span>
+                            <span className='fw-6'>Published Date: </span>
+                            <span className='text-italic'>{book?.publishedDate}</span>
+                        </div>
+                        <div className='book-details-item'>
+                            <span className='fw-6'>Categories: </span>
+                            <span className='text-italic'>{book?.categories}</span>
                         </div>
                     </div>
                 </div>

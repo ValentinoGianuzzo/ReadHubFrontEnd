@@ -1,14 +1,14 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from "../../components/Header/Header";
-import Main from "../../components/Main/Main";
+import Navbar from "../../components/Navbar/Navbar";
 
 const Home: React.FC = () => {
     return (
         <main>
+            <Navbar />
             <Header />
             <Outlet />
-            {/*<Main />*/}
         </main>
     );
 }

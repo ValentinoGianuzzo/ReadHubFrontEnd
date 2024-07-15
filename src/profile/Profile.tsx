@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import DefaultLayout from "../components/Layout/DefaultLayout";
 
 interface DiaryEntry {
     id: number;
@@ -26,7 +26,7 @@ export default function Profile() {
 
     const createNote = async (userId: number, content: string) => {
         try {
-            const response = await axios.post(`/api/users/${userId}/diary-entries`, { content });
+            const response = await axios.post(`/api/users/${userId}/diary-entries`, {content});
             return response.data;  // Devuelve la nota creada
         } catch (error) {
             console.error('Error creating note:', error);
@@ -46,7 +46,7 @@ export default function Profile() {
     };
     const updateNote = async (entryId: number, content: string) => {
         try {
-            const response = await axios.put(`/api/users/1/diary-entries/${entryId}`, { content });
+            const response = await axios.put(`/api/users/1/diary-entries/${entryId}`, {content});
             return response.data;  // Devuelve la nota actualizada
         } catch (error) {
             console.error('Error updating note:', error);
@@ -90,7 +90,7 @@ export default function Profile() {
             await updateNote(entryId, updatedContent);
             const updatedNotes = notes.map(note => {
                 if (note.id === entryId) {
-                    return { ...note, content: updatedContent };
+                    return {...note, content: updatedContent};
                 }
                 return note;
             });
@@ -101,26 +101,27 @@ export default function Profile() {
     };
 
     return (
-        <div>
-            <Link to="/Dashboard" style={{ textDecoration: 'none', color: 'blue', marginBottom: '20px', display: 'block' }}>Home</Link>
-            <h2>Notas Personales</h2>
-            <form onSubmit={handleNoteSubmit}>
+        <DefaultLayout>
+            <div>
+                <h2>Notas Personales</h2>
+                <form onSubmit={handleNoteSubmit}>
                 <textarea
                     placeholder="Escribe una nota..."
                     value={newNote}
                     onChange={e => setNewNote(e.target.value)}
                 ></textarea>
-                <button type="submit">Agregar Nota</button>
-            </form>
-            <div>
-                {notes.map(note => (
-                    <div key={note.id} style={{ marginTop: '10px', borderBottom: '1px solid #ccc' }}>
-                        <p>{note.content}</p>
-                        <button onClick={() => handleEditNote(note.id, 'Nuevo contenido')}>Modificar</button>
-                        <button onClick={() => handleDeleteNote(note.id)}>Eliminar</button>
-                    </div>
-                ))}
+                    <button type="submit">Agregar Nota</button>
+                </form>
+                <div>
+                    {notes.map(note => (
+                        <div key={note.id} style={{marginTop: '10px', borderBottom: '1px solid #ccc'}}>
+                            <p>{note.content}</p>
+                            <button onClick={() => handleEditNote(note.id, 'Nuevo contenido')}>Modificar</button>
+                            <button onClick={() => handleDeleteNote(note.id)}>Eliminar</button>
+                        </div>
+                    ))}
+                </div>
             </div>
-        </div>
+        </DefaultLayout>
     );
 }

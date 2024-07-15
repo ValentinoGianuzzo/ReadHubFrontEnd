@@ -1,17 +1,20 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Main from './components/Main/Main';
 import { AuthProvider } from "./authentication/AuthContext";
-import SignIn from "./authentication/SignIn";
 import ProtectedRoute from "./Rutas/ProtectedRoute";
 import React from "react";
+import Home from "./pages/Home/Home";
+import SignIn from "./authentication/signin/SignIn";
+import SignUp from "./authentication/signup/SignUp";
 
 const App = () => {
     return (
         <AuthProvider>
             <Router>
                 <Routes>
-                    <Route path="/signin" element={<SignIn />} />
-                    <Route path="/main" element={<ProtectedRoute component={Main} />} />
+                    <Route path="/" element={<Home />} >
+                        <Route path="/signin" element={<SignIn />} />
+                        <Route path="/signup" element={<SignUp />} />
+                    </Route>
                     {/* Other routes */}
                 </Routes>
             </Router>

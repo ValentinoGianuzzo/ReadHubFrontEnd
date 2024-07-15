@@ -21,7 +21,7 @@ body{
   font-size: 1.6rem;
   line-height: 1.7;
   font-family: 'Poppins', sans-serif;
-  color: var(--white-color);
+  color: var(--brown_color);
 }
 
 /* resets */
@@ -31,7 +31,7 @@ ul{
 
 a{
   text-decoration: none;
-  color: var(--light-brown-color);
+  color: #5D4037;
 }
 button{
   outline: 0;

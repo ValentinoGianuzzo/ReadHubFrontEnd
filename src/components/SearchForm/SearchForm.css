@@ -1,3 +1,9 @@
+.searchContainer{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
 .search-form{
     width: 100%;
     max-width: 680px;

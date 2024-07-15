@@ -33,7 +33,9 @@
 }
 
 .labelTextField{
-    font-size: 0.9em !important; /* Increase font size for the label */
+    font-size: 1em !important; /* Increase font size for the label. If I want to increase it more then I should */
+    color: #ffffff !important; /* Adjust the color as needed */
+    /* I can increase the font size by changing to 1.2em */
 }
 
 .textFieldDiv{

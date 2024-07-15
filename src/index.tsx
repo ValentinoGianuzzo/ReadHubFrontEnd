@@ -7,10 +7,12 @@ import About from "./pages/About/About";
 import { AppProvider } from "./context";
 import Settings from "./Rutas/Settings/Settings";
 import MyBooks from "./Rutas/MyBooks";
-import SignIn from "./authentication/SignIn";
-import SignUp from "./authentication/SignUp";
+import SignIn from "./authentication/signin/SignIn";
+import SignUp from "./authentication/signup/SignUp";
 import BookList from "./components/BookList/BookList";
 import BookDetails from "./components/BookDetails/BookDetails";
+import Profile from "./profile/Profile";
+import SearchForm from "./components/SearchForm/SearchForm";
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
@@ -24,8 +26,10 @@ root.render(
                     <Route path="mybooks" element={<MyBooks />} />
                     <Route path="signin" element={<SignIn />} />
                     <Route path="signup" element={<SignUp />} />
-                    <Route path="books" element={<BookList />} />
+                    <Route path="book" element={<BookList />} />
                     <Route path="book/:id" element={<BookDetails />} />
+                    <Route path="profile" element={<Profile />} />
+                    <Route path="search" element={<SearchForm />} />
                 </Routes>
             </BrowserRouter>
         </AppProvider>
