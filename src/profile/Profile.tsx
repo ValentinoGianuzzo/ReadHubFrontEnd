@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import DefaultLayout from "../components/Layout/DefaultLayout";
-import './Profile.css'; // Archivo CSS para los estilos del Profile
+import './Profile.css';
+import axios, {} from "axios"; //
 
 interface DiaryEntry {
     id: number;
@@ -39,7 +39,8 @@ interface ReadingGoal {
 }
 
 const Profile: React.FC = () => {
-    const userId = localStorage.getItem('userId');  // Obtener el ID del usuario desde localStorage
+    let userId = localStorage.getItem('userId');  // Obtener el ID del usuario desde localStorage
+    const token = localStorage.getItem('token'); // Obtener el token de autenticación desde localStorage
 
     const [notes, setNotes] = useState<DiaryEntry[]>([]);
     const [newNote, setNewNote] = useState('');
@@ -57,29 +58,37 @@ const Profile: React.FC = () => {
     const [goalTarget, setGoalTarget] = useState<number | ''>('');
 
     useEffect(() => {
-        if (userId) {
+        if (userId && token) {
             fetchNotes();
             fetchFavoriteBooks();
             fetchCustomLists();
             fetchComments();
             fetchReadingGoals();
         }
-    }, [userId]);
+    }, [userId, token]);
+
+    const axiosInstance = axios.create({
+        baseURL: 'http://localhost:8080',
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
 
     const fetchNotes = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/users/${userId}/diary-entries`);
+            const response = await axiosInstance.get(`/users/${userId}/diary-entries/getAllEntries`);
             setNotes(response.data);
         } catch (error) {
             console.error('Error fetching notes:', error);
         }
     };
 
-    const createNote = async (content: string) => {
+    const createNote = async (newContent: string) => {
         const date = new Date().toISOString(); // Obtener la fecha actual en formato ISO
         try {
-            const response = await axios.post(`http://localhost:8080/users/${userId}/diary-entries`, { content, date, userId });
+            const response = await axiosInstance.post(`/users/${userId}/diary-entries/createEntry`, { userId: userId, content: newContent });
             const createdNote = response.data;
+            localStorage.setItem('noteId', createdNote.id.toString());  // Guardar el ID de la nota en localStorage
             setNotes([...notes, createdNote]);
             setNewNote('');  // Limpiar el contenido del textarea después de agregar la nota
         } catch (error) {
@@ -89,7 +98,7 @@ const Profile: React.FC = () => {
 
     const deleteNote = async (entryId: number) => {
         try {
-            await axios.delete(`http://localhost:8080/users/${userId}/diary-entries/${entryId}`);
+            await axiosInstance.delete(`/users/${userId}/diary-entries/delete/${entryId}`);
             setNotes(notes.filter(note => note.id !== entryId));
         } catch (error) {
             console.error('Error deleting note:', error);
@@ -98,7 +107,7 @@ const Profile: React.FC = () => {
 
     const updateNote = async (entryId: number, updatedContent: string) => {
         try {
-            const response = await axios.put(`http://localhost:8080/users/${userId}/diary-entries/${entryId}`, { content: updatedContent });
+            const response = await axiosInstance.put(`/users/${userId}/diary-entries/update/${entryId}`, { content: updatedContent, entryId: entryId, userId: userId });
             const updatedNote = response.data;
             setNotes(notes.map(note => (note.id === entryId ? updatedNote : note)));
         } catch (error) {
@@ -106,9 +115,9 @@ const Profile: React.FC = () => {
         }
     };
 
-    const handleCreateNoteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleCreateNoteSubmit = (e: React.FormEvent<HTMLFormElement>) => { /* the e: means that the function is expecting an event */
         e.preventDefault();
-        if (newNote.trim() !== '') {
+        if (newNote.trim() !== '') { /* this if is because we don't want to create a note with empty content */
             createNote(newNote);
         } else {
             console.error('El contenido de la nota no puede estar vacío');
@@ -117,7 +126,7 @@ const Profile: React.FC = () => {
 
     const fetchFavoriteBooks = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/users/${userId}/favorite-books`);  // Ajusta el endpoint según tu API
+            const response = await axiosInstance.get(`/users/${userId}/favorite-books`);  // Ajusta el endpoint según tu API
             setFavoriteBooks(response.data);
         } catch (error) {
             console.error('Error fetching favorite books:', error);
@@ -126,7 +135,7 @@ const Profile: React.FC = () => {
 
     const fetchCustomLists = async () => {
         try {
-            const response = await axios.get(`/api/users/${userId}/custom-lists`);  // Ajusta el endpoint según tu API
+            const response = await axiosInstance.get(`/api/users/${userId}/custom-lists`);  // Ajusta el endpoint según tu API
             setCustomLists(response.data);
         } catch (error) {
             console.error('Error fetching custom lists:', error);
@@ -135,7 +144,7 @@ const Profile: React.FC = () => {
 
     const createCustomList = async (listName: string) => {
         try {
-            const response = await axios.post(`http://localhost:8080/users/${userId}/lists/createlist`, { name: listName });  // Ajusta el endpoint según tu API
+            const response = await axiosInstance.post(`/users/${userId}/lists/createList`, { name: listName });
             const newList = response.data;
             setCustomLists([...customLists, newList]);
         } catch (error) {
@@ -145,7 +154,7 @@ const Profile: React.FC = () => {
 
     const deleteCustomList = async (listId: number) => {
         try {
-            await axios.delete(`http://localhost:8080/users/${userId}/lists/${listId}`);  // Ajusta el endpoint según tu API
+            await axiosInstance.delete(`/users/${userId}/lists/${listId}`);  // Ajusta el endpoint según tu API
             setCustomLists(customLists.filter(list => list.id !== listId));
         } catch (error) {
             console.error('Error deleting custom list:', error);
@@ -154,7 +163,7 @@ const Profile: React.FC = () => {
 
     const fetchComments = async () => {
         try {
-            const response = await axios.get(`/api/users/${userId}/comments`);  // Ajusta el endpoint según tu API
+            const response = await axiosInstance.get(`/api/users/${userId}/comments`);  // Ajusta el endpoint según tu API
             setComments(response.data);
         } catch (error) {
             console.error('Error fetching comments:', error);
@@ -163,7 +172,7 @@ const Profile: React.FC = () => {
 
     const fetchReadingGoals = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/users/${userId}/goals`);  // Ajusta el endpoint según tu API
+            const response = await axiosInstance.get(`/users/${userId}/goals`);  // Ajusta el endpoint según tu API
             setReadingGoals(response.data);
         } catch (error) {
             console.error('Error fetching reading goals:', error);
@@ -186,7 +195,7 @@ const Profile: React.FC = () => {
         };
 
         try {
-            const response = await axios.post(`http://localhost:8080/users/${userId}/goals`, newGoal);
+            const response = await axiosInstance.post(`/users/${userId}/goals/createGoal`, newGoal);
             const createdGoal = response.data;
             setReadingGoals([...readingGoals, createdGoal]);
             // Limpiar los campos del formulario
@@ -207,11 +216,18 @@ const Profile: React.FC = () => {
 
         if (listName.trim() !== '') {
             await createCustomList(listName);
-            e.currentTarget.reset(); // Limpiar el formulario después de crear la lista
+
+            // Check if e.currentTarget is still valid before calling reset()
+            if (e.currentTarget) {
+                e.currentTarget.reset(); // Reset the form after creating the list
+            } else {
+                console.error('Form reference is null or undefined');
+            }
         } else {
             console.error('El nombre de la lista no puede estar vacío');
         }
     };
+
 
     const handleCreateGoalSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

@@ -60,11 +60,11 @@ const UserProfile: React.FC = () => {
                     {customLists.map(list => (
                         <div key={list.id}>
                             <h3>{list.name}</h3>
-                            <ul>
-                                {list.books.map(book => (
-                                    <li key={book.id}>{book.title}</li>
-                                ))}
-                            </ul>
+                            {/*<ul>*/}
+                            {/*    {list.books.map(book => (*/}
+                            {/*        <li key={book.id}>{book.title}</li>*/}
+                            {/*    ))}*/}
+                            {/*</ul>*/}
                         </div>
                     ))}
                 </div>
