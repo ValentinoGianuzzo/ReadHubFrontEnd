@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {Link, Navigate} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, Navigate } from 'react-router-dom';
 import "./Navbar.css";
 import logoImg from "../../images/logo.png";
-import {HiOutlineMenuAlt3} from "react-icons/hi";
+import { HiOutlineMenuAlt3 } from "react-icons/hi";
 
 const Navbar: React.FC = () => {
     const [toggleMenu, setToggleMenu] = useState<boolean>(false);
@@ -39,41 +39,34 @@ const Navbar: React.FC = () => {
                         {isAuth ? (
                             <>
                                 <li className='nav-item'>
-                                    <Link to="/"
-                                          className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Home</Link>
+                                    <Link to="/" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Home</Link>
                                 </li>
                                 <li className='nav-item'>
-                                    <Link to="/about"
-                                          className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>About</Link>
+                                    <Link to="/about" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>About</Link>
                                 </li>
                                 <li className='nav-item'>
-                                    <Link to="/profile"
-                                          className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Profile</Link>
+                                    <Link to="/profile" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Profile</Link>
                                 </li>
                                 <li className='nav-item'>
-                                    <button onClick={handleSignOut}
-                                            className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'
-                                            style={{background: 'none', border: 'none'}}>Sign Out
-                                    </button>
+                                    <Link to="/settings" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Settings</Link>
+                                </li>
+                                <li className='nav-item'>
+                                    <button onClick={handleSignOut} className='nav-link text-uppercase text-white fs-22 fw-6 ls-1' style={{background: 'none', border: 'none'}}>Sign Out</button>
                                 </li>
                             </>
                         ) : (
                             <>
                                 <li className='nav-item'>
-                                    <Link to="/"
-                                          className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Home</Link>
+                                    <Link to="/" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Home</Link>
                                 </li>
                                 <li className='nav-item'>
-                                    <Link to="/about"
-                                          className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>About</Link>
+                                    <Link to="/about" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>About</Link>
                                 </li>
                                 <li className='nav-item'>
-                                    <Link to="/signin" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Sign
-                                        In</Link>
+                                    <Link to="/signin" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Sign In</Link>
                                 </li>
                                 <li className='nav-item'>
-                                    <Link to="/signup" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Sign
-                                        Up</Link>
+                                    <Link to="/signup" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Sign Up</Link>
                                 </li>
                             </>
                         )}

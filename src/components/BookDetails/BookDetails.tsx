@@ -5,6 +5,7 @@ import coverImg from "../../images/cover_not_found.png";
 import "./BookDetails.css";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 interface BookDetailsProps {
     description: string;
@@ -16,10 +17,18 @@ interface BookDetailsProps {
     categories: string;
 }
 
+interface Review {
+    author: string;
+    comment: string;
+    rating: number;
+}
+
 const BookDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [loading, setLoading] = useState<boolean>(false);
     const [book, setBook] = useState<BookDetailsProps | null>(null);
+    const [reviews, setReviews] = useState<Review[]>([]);
+    const [customLists, setCustomLists] = useState<string[]>([]); // Placeholder for custom lists
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -54,6 +63,32 @@ const BookDetails: React.FC = () => {
         }
         getBookDetails();
     }, [id]);
+
+    const handleAddToFavorites = async () => {
+        if (!book) {
+            console.error('No book selected.');
+            return;
+        }
+
+        try {
+            const response = await axios.post(`http://localhost:8080/users/${localStorage.getItem('userId')}/favorite-books`, book);
+            console.log(`${book.title} added to favorites`, response.data);
+            // Aquí podrías actualizar el estado local o realizar alguna otra acción después de agregar a favoritos
+        } catch (error) {
+            console.error('Error adding to favorites:', error);
+        }
+    };
+
+
+
+    const handleAddToCustomList = (listName: string) => {
+        // Implementar la lógica para agregar a una lista personalizada aquí
+        console.log(`${book?.title} added to ${listName}`);
+    };
+
+    const handleAddReview = (review: Review) => {
+        setReviews([...reviews, review]);
+    };
 
     if (loading) return <Loading />;
 
@@ -91,6 +126,20 @@ const BookDetails: React.FC = () => {
                         <div className='book-details-item'>
                             <span className='fw-6'>Categories: </span>
                             <span className='text-italic'>{book?.categories}</span>
+                        </div>
+                        <div className='book-details-actions'>
+                            <button onClick={handleAddToFavorites}>Add to Favorites</button>
+                            <select onChange={(e) => handleAddToCustomList(e.target.value)}>
+                                <option value="">Add to Custom List</option>
+                                {customLists.map((list, index) => (
+                                    <option key={index} value={list}>{list}</option>
+                                ))}
+                            </select>
+                            <button onClick={() => handleAddReview({
+                                author: "Anonymous", // Puedes cambiar esto por el nombre del usuario logueado
+                                comment: "Great book!", // Esta es una muestra, puedes abrir un formulario para el comentario real
+                                rating: 5 // Una calificación de muestra
+                            })}>Add Review</button>
                         </div>
                     </div>
                 </div>

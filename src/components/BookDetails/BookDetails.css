@@ -1,63 +1,123 @@
-.book-details{
+.book-details {
     padding: 6rem 0;
 }
-.back-btn{
+
+.back-btn {
     margin-left: 20px;
     margin-bottom: 2.6rem;
-    transition: var(--transition);
+    transition: 0.3s ease-in-out;
 }
-.back-btn:hover{
-    color: var(--brown-search-color);
+
+.back-btn:hover {
+    color: #8B4513; /* Color marrón */
 }
-.back-btn span{
+
+.back-btn span {
     margin-left: 1rem;
 }
-.book-details-content{
+
+.book-details-content {
     gap: 4rem;
 }
-.book-details-img{
+
+.book-details-img {
     max-height: 600px;
     overflow: hidden;
 }
-.book-details-img img{
+
+.book-details-img img {
     margin: 0 auto;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-.book-details-item{
+
+.book-details-item {
     margin-bottom: 1.4rem;
 }
-.book-details-item.description{
+
+.book-details-item.description {
     opacity: 0.8;
 }
-.book-details-info{
+
+.book-details-info {
     overflow-y: scroll;
     max-height: 600px;
     padding: 1.4rem;
 }
-.book-details-info::-webkit-scrollbar{
+
+.book-details-info::-webkit-scrollbar {
     width: 8px;
 }
-.book-details-info::-webkit-scrollbar-track{
+
+.book-details-info::-webkit-scrollbar-track {
     border-radius: 8px;
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
-.book-details-info::-webkit-scrollbar-thumb{
-    background-color: var(--brown-search-color);
+
+.book-details-info::-webkit-scrollbar-thumb {
+    background-color: #8B4513; /* Color marrón */
     outline: 1px solid slategray;
     border-radius: 8px;
 }
 
-@media screen and (min-width: 768px){
-    .book-details-content{
+.btn {
+    margin: 0.5rem 0;
+    padding: 0.5rem 1rem;
+    background-color: #8B4513; /* Color verde */
+    color: #fff; /* Color blanco */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #8B4513; /* Color verde oscuro */
+}
+
+.comment-box {
+    margin-top: 1rem;
+}
+
+.comment-box form {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-box textarea {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border: 1px solid #ccc; /* Color gris claro */
+    border-radius: 4px;
+}
+
+.comments-section {
+    margin-top: 2rem;
+}
+
+.comment {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc; /* Color gris claro */
+    border-radius: 4px;
+}
+
+.comment p {
+    margin: 0.5rem 0;
+}
+
+@media screen and (min-width: 768px) {
+    .book-details-content {
         grid-template-columns: 40% 60%;
-        gap: 0
+        gap: 0;
     }
-    .book-details-img{
+
+    .book-details-img {
         padding: 0 6rem 0 2rem;
     }
-    .book-details-img img{
+
+    .book-details-img img {
         max-width: 100%;
     }
 }

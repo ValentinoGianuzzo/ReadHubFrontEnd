@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import './Settings.css'; // Importar el archivo de estilos
 
 const Settings = () => {
     const [userData, setUserData] = useState({
@@ -10,16 +11,15 @@ const Settings = () => {
     });
     const [isEditMode, setIsEditMode] = useState(false);
 
-    // Cargar los datos del usuario a la pagina
+    // Cargar los datos del usuario a la página
     useEffect(() => {
         getUserData();
     }, []);
 
-
     const getUserData = async () => {
         try {
             // Llamada a la API para obtener los datos del usuario
-            const response = await  fetch("http://localhost:8080/user/getUser", {
+            const response = await fetch("http://localhost:8080/user/getUser", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ const Settings = () => {
     };
 
     return (
-        <div className="Account Settings">
+        <div className="AccountSettings">
             <h2>Account Settings</h2>
             <div>
                 <label>Nombre:</label>
@@ -108,7 +108,7 @@ const Settings = () => {
                 {isEditMode ? (
                     <input
                         type="password"
-                        value={userData.password} disabled
+                        value={userData.password}
                         onChange={(e) => setUserData({ ...userData, password: e.target.value })}
                     />
                 ) : (
@@ -126,7 +126,7 @@ const Settings = () => {
                 )}
                 <button onClick={handleDeleteUser}>Borrar Usuario</button>
             </div>
-            <Link to="/dashboard">Volver a Dashboard</Link>
+            <Link to="/" className="link">Go Back</Link>
         </div>
     );
 };

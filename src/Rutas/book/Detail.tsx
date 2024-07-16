@@ -18,7 +18,8 @@ interface Book {
 
 interface Comment {
     id: string;
-    user: string;
+    userId: string;
+    username: string;
     text: string;
     rating: number;
 }
@@ -87,12 +88,12 @@ const Detail: React.FC<DetailProps> = ({ userId }) => {
     const addToFavorites = async () => {
         try {
             // Verificar si existe la lista de favoritos para el usuario
-            const checkListResponse = await axios.get(`/users/${userId}/lists/favorites`);
+            const checkListResponse = await axios.get(`http://localhost:8080/users/${userId}/lists/favorites`);
             let favoritesListId = null;
 
             if (!checkListResponse.data) {
                 // Si no existe la lista de favoritos, crearla
-                const createListResponse = await axios.post(`/users/${userId}/lists/createlist`, { name: "Favorites" });
+                const createListResponse = await axios.post(`http://localhost:8080/users/${userId}/lists/createlist`, { name: "Favorites" });
                 favoritesListId = createListResponse.data.id;
                 console.log('Lista de favoritos creada');
             } else {
@@ -101,16 +102,16 @@ const Detail: React.FC<DetailProps> = ({ userId }) => {
             }
 
             // Verificar si el libro ya está en la lista de favoritos
-            const checkBookInFavorites = await axios.get(`/users/${userId}/lists/${favoritesListId}/books/${bookId}`);
+            const checkBookInFavorites = await axios.get(`http://localhost:8080/users/${userId}/lists/${favoritesListId}/books/${bookId}`);
 
             if (checkBookInFavorites.data) {
                 // Si el libro ya está en favoritos, eliminarlo
-                await axios.delete(`/users/${userId}/lists/${favoritesListId}/books/${bookId}`);
+                await axios.delete(`http://localhost:8080/users/${userId}/lists/${favoritesListId}/books/${bookId}`);
                 console.log('Libro eliminado de favoritos');
                 setIsFavorite(false);
             } else {
                 // Si el libro no está en favoritos, agregarlo
-                await axios.post(`/users/${userId}/lists/${favoritesListId}/books/${bookId}`);
+                await axios.post(`http://localhost:8080/users/${userId}/lists/${favoritesListId}/books/${bookId}`);
                 console.log('Libro agregado a favoritos');
                 setIsFavorite(true);
             }
@@ -122,7 +123,7 @@ const Detail: React.FC<DetailProps> = ({ userId }) => {
     const addToCustomList = async (listId: string) => {
         try {
             // Agregar el libro a una lista personalizada
-            await axios.post(`/users/${userId}/lists/${listId}/books/${bookId}`);
+            await axios.post(`http://localhost:8080/users/${userId}/lists/${listId}/books/${bookId}`);
             console.log('Libro agregado a lista personalizada');
             showCustomLists(); // Actualizar la lista personalizada mostrada (implementa esta función)
         } catch (error) {
@@ -225,7 +226,7 @@ const Detail: React.FC<DetailProps> = ({ userId }) => {
                         <div>
                             {comments.map(comment => (
                                 <div key={comment.id} className="comment">
-                                    <p><strong>{comment.user}</strong> - <StarRatings
+                                    <p><Link to={`/profile/${comment.userId}`}><strong>{comment.username}</strong></Link> - <StarRatings
                                         rating={comment.rating}
                                         starRatedColor="blue"
                                         numberOfStars={5}
@@ -255,26 +256,3 @@ const buttonStyle = {
     cursor: 'pointer'
 };
 
-const textareaStyle = {
-    width: '100%',
-    padding: '10px',
-    marginBottom: '10px',
-    borderRadius: '5px',
-    border: '1px solid #ccc'
-};
-
-const commentStyle = {
-    marginTop: '10px',
-    borderBottom: '1px solid #ccc',
-    paddingBottom: '10px'
-};
-
-const commentBoxStyle = {
-    padding: '20px',
-    backgroundColor: '#f9f9f9',
-    borderRadius: '10px',
-    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-    marginBottom: '20px'
-};
-
-export default Detail;
